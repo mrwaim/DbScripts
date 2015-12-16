@@ -1,4 +1,6 @@
 #/bin/sh
+# Usage new_user.sh [username|root with no password]
+# Creates the user in .env
 
 dir=`dirname $0`
 if [ -e "$dir/../.env" ]; then
@@ -12,10 +14,10 @@ fi
 user='root'
 p=''
 
-if [ -z "$2" ]; then
+if [ -z "$1" ]; then
     echo "using $user"
 else
-    user=$2
+    user=$1
     p=" -p "
     echo "using $user"
 fi
@@ -27,14 +29,14 @@ if ! eval $command; then
     #exit 1
 fi
 
-command="mysql -u root -e \"grant Select,Update,Insert,Create,Delete,Alter,Drop on $DB_DATABASE.* to '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD'\";";
+command="mysql -u $user $p -e \"grant Select,Update,Insert,Create,Delete,Drop,Alter on $DB_DATABASE.* to '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD'\";";
 echo $command
 if ! eval $command; then
     echo "mysql failed" >&2
     exit 1
 fi
 
-command="mysql -u root -e \"FLUSH PRIVILEGES;\"";
+command="mysql -u $user $p -e \"FLUSH PRIVILEGES;\"";
 echo $command
 if ! eval $command; then
     echo "mysql failed" >&2

@@ -1,4 +1,6 @@
 #/bin/sh
+# Usage drop_user.sh [username|root with no password]
+# Drops the user in .env
 
 dir=`dirname $0`
 if [ -e "$dir/../.env" ]; then
@@ -12,10 +14,10 @@ fi
 user='root'
 p=''
 
-if [ -z "$2" ]; then
+if [ -z "$1" ]; then
     echo "using $user"
 else
-    user=$2
+    user=$1
     p=" -p "
     echo "using $user"
 fi

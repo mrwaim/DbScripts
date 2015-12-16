@@ -1,4 +1,5 @@
 #/bin/sh
+# Usage reset_db.h
 
 dir=`dirname $0`
 if [ -e "$dir/../.env" ]; then
@@ -34,9 +35,17 @@ if ! eval $command; then
     exit 1
 fi
 
+echo 'composer dump-autoload'
 composer dump-autoload
+
+echo 'php artisan migrate'
 php artisan migrate
+
+echo 'php artisan -v db:seed'
 php artisan -v db:seed
 
-php artisan ide-helper:generate
-php artisan ide-helper:models --write
+echo 'php artisan -vvv ide-helper:generate'
+php artisan -vvv ide-helper:generate
+
+echo 'php artisan -vvv ide-helper:models --write'
+php artisan -vvv ide-helper:models --write
