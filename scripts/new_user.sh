@@ -29,7 +29,7 @@ if ! eval $command; then
     #exit 1
 fi
 
-command="mysql -u $user $p -e \"grant Select,Update,Insert,Create,Delete,Drop,Alter on $DB_DATABASE.* to '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD'\";";
+command="mysql -u $user $p -e \"grant Select,Update,Insert,Create,Delete,Drop,Alter,References on $DB_DATABASE.* to '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD'\";";
 echo $command
 if ! eval $command; then
     echo "mysql failed" >&2
