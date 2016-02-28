@@ -33,6 +33,11 @@ class DbCreateUser extends Command
     {
         $userClass = config('auth.model');
 
+        if (!$userClass)
+        {
+            $userClass = config('auth.providers.users.model');
+        }
+
         $list =  \Schema::getColumnListing('users');
         $list2 = array_filter($list, function ($e) {
             return $e != 'id' && !str_contains($e, 'password');
