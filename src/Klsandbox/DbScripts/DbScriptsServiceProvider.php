@@ -1,6 +1,7 @@
 <?php namespace Klsandbox\DbScripts;
 
 use Illuminate\Support\ServiceProvider;
+use Klsandbox\DbScripts\Console\Commands\DbCreateUser;
 
 class DbScriptsServiceProvider extends ServiceProvider {
 
@@ -12,13 +13,16 @@ class DbScriptsServiceProvider extends ServiceProvider {
 	protected $defer = false;
 
 	/**
-	* Register the service provider.
-	*
-	* @return void
-	*/
-	public function register()
-	{
-		//
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register() {
+		$this->app->singleton('command.klsandbox.dbcreateuser', function() {
+			return new DbCreateUser();
+		});
+
+		$this->commands('command.klsandbox.dbcreateuser');
 	}
 
 	/**
