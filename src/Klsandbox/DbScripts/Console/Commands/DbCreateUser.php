@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class DbCreateUser extends Command
 {
-
     /**
      * The console command name.
      *
@@ -33,12 +32,11 @@ class DbCreateUser extends Command
     {
         $userClass = config('auth.model');
 
-        if (!$userClass)
-        {
+        if (!$userClass) {
             $userClass = config('auth.providers.users.model');
         }
 
-        $list =  \Schema::getColumnListing('users');
+        $list = \Schema::getColumnListing('users');
         $list2 = array_filter($list, function ($e) {
             return $e != 'id' && !str_contains($e, 'password');
         });
@@ -48,10 +46,8 @@ class DbCreateUser extends Command
 
         $user->password = Hash::make($passWord);
 
-        foreach ($list2 as $option)
-        {
-            if ($this->option($option))
-            {
+        foreach ($list2 as $option) {
+            if ($this->option($option)) {
                 $user->$option = $this->option($option);
             }
         }
@@ -62,7 +58,7 @@ class DbCreateUser extends Command
 
     protected function getOptions()
     {
-        $list =  Schema::getColumnListing('users');
+        $list = Schema::getColumnListing('users');
         $list2 = array_filter($list, function ($e) {
             return $e != 'id' && !str_contains($e, 'password');
         });
